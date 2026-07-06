@@ -60,14 +60,14 @@ jobs:
 
       - name: Restore Async task cache
         id: async-cache-restore
-        uses: async/actions/cache@ae78d0fe7cc4bb00907c275bc7bab4317a02fe17 # v0.1.23
+        uses: async/actions/cache@ff415041176eaffaa2ba19363fe371188f52ee1f # v0.1.24
         with:
           mode: restore
           manifest: .async/actions/cache/main-snapshot-cache-manifest.json
           trust: read-only
 
       - name: Run pipeline task pack
-        uses: async/actions/run@ae78d0fe7cc4bb00907c275bc7bab4317a02fe17 # v0.1.23
+        uses: async/actions/run@ff415041176eaffaa2ba19363fe371188f52ee1f # v0.1.24
         with:
           command: "pnpm async-pipeline github check && pnpm async-pipeline run-task pack"
           check-generated: false
@@ -76,37 +76,37 @@ jobs:
           CI: true
 
       - name: Plan main package preview
-        run: pnpm dlx github:async/release#v0.1.5 preview plan --package packages/web --mode main --namespace "${{ github.repository_owner }}" --source-repository "${{ github.repository }}" --source-sha "${{ github.sha }}" --evidence-dir .async/release --json
+        run: pnpm dlx github:async/release#v0.1.6 preview plan --package packages/web --mode main --namespace "${{ github.repository_owner }}" --source-repository "${{ github.repository }}" --source-sha "${{ github.sha }}" --evidence-dir .async/release --json
 
       - name: Stage main package preview
-        run: pnpm dlx github:async/release#v0.1.5 preview stage --package packages/web --mode main --namespace "${{ github.repository_owner }}" --source-repository "${{ github.repository }}" --source-sha "${{ github.sha }}" --evidence-dir .async/release --json --registry https://npm.pkg.github.com
+        run: pnpm dlx github:async/release#v0.1.6 preview stage --package packages/web --mode main --namespace "${{ github.repository_owner }}" --source-repository "${{ github.repository }}" --source-sha "${{ github.sha }}" --evidence-dir .async/release --json --registry https://npm.pkg.github.com
 
       - name: Inspect main package preview
-        run: pnpm dlx github:async/release#v0.1.5 preview inspect --package packages/web --mode main --namespace "${{ github.repository_owner }}" --source-repository "${{ github.repository }}" --source-sha "${{ github.sha }}" --evidence-dir .async/release --json
+        run: pnpm dlx github:async/release#v0.1.6 preview inspect --package packages/web --mode main --namespace "${{ github.repository_owner }}" --source-repository "${{ github.repository }}" --source-sha "${{ github.sha }}" --evidence-dir .async/release --json
 
       - name: Publish main package preview
         id: async-main-package-preview-packages-web
-        uses: async/actions/preview@ae78d0fe7cc4bb00907c275bc7bab4317a02fe17 # v0.1.23
+        uses: async/actions/preview@ff415041176eaffaa2ba19363fe371188f52ee1f # v0.1.24
         with:
           package-path: "packages/web"
           target-registry: "https://npm.pkg.github.com"
           mode: main
           comment: false
           token-env-name: "GITHUB_TOKEN"
-          release-package: "github:async/release#v0.1.5"
+          release-package: "github:async/release#v0.1.6"
         env:
           CI: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Verify main package preview
         if: steps.async-main-package-preview-packages-web.outputs.package-spec != ''
-        run: pnpm dlx github:async/release#v0.1.5 preview doctor --package packages/web --mode main --namespace "${{ github.repository_owner }}" --source-repository "${{ github.repository }}" --source-sha "${{ github.sha }}" --evidence-dir .async/release --json --registry https://npm.pkg.github.com --network live
+        run: pnpm dlx github:async/release#v0.1.6 preview doctor --package packages/web --mode main --namespace "${{ github.repository_owner }}" --source-repository "${{ github.repository }}" --source-sha "${{ github.sha }}" --evidence-dir .async/release --json --registry https://npm.pkg.github.com --network live
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Save Async task cache
         if: ${{ success() && github.event_name != 'pull_request' && steps.async-cache-restore.outputs.cache-hit != 'true' }}
-        uses: async/actions/cache@ae78d0fe7cc4bb00907c275bc7bab4317a02fe17 # v0.1.23
+        uses: async/actions/cache@ff415041176eaffaa2ba19363fe371188f52ee1f # v0.1.24
         with:
           mode: save
           manifest: .async/actions/cache/main-snapshot-cache-manifest.json
@@ -143,19 +143,19 @@ jobs:
 
       - name: Restore Async task cache
         id: async-cache-restore
-        uses: async/actions/cache@ae78d0fe7cc4bb00907c275bc7bab4317a02fe17 # v0.1.23
+        uses: async/actions/cache@ff415041176eaffaa2ba19363fe371188f52ee1f # v0.1.24
         with:
           mode: restore
           manifest: .async/actions/cache/release-doctor-cache-manifest.json
           trust: read-only
 
       - name: Run release doctor
-        uses: async/actions/doctor@ae78d0fe7cc4bb00907c275bc7bab4317a02fe17 # v0.1.23
+        uses: async/actions/doctor@ff415041176eaffaa2ba19363fe371188f52ee1f # v0.1.24
         with:
           mode: doctor
           package-path: "packages/web"
           evidence-dir: .async/release
-          release-command: "pnpm dlx github:async/release#v0.1.5"
+          release-command: "pnpm dlx github:async/release#v0.1.6"
           network: live
         env:
           CI: true
@@ -163,7 +163,7 @@ jobs:
 
       - name: Save Async task cache
         if: ${{ success() && github.event_name != 'pull_request' && steps.async-cache-restore.outputs.cache-hit != 'true' }}
-        uses: async/actions/cache@ae78d0fe7cc4bb00907c275bc7bab4317a02fe17 # v0.1.23
+        uses: async/actions/cache@ff415041176eaffaa2ba19363fe371188f52ee1f # v0.1.24
         with:
           mode: save
           manifest: .async/actions/cache/release-doctor-cache-manifest.json
@@ -205,14 +205,14 @@ jobs:
 
       - name: Restore Async task cache
         id: async-cache-restore
-        uses: async/actions/cache@ae78d0fe7cc4bb00907c275bc7bab4317a02fe17 # v0.1.23
+        uses: async/actions/cache@ff415041176eaffaa2ba19363fe371188f52ee1f # v0.1.24
         with:
           mode: restore
           manifest: .async/actions/cache/stable-release-cache-manifest.json
           trust: read-only
 
       - name: Run pipeline task pack
-        uses: async/actions/run@ae78d0fe7cc4bb00907c275bc7bab4317a02fe17 # v0.1.23
+        uses: async/actions/run@ff415041176eaffaa2ba19363fe371188f52ee1f # v0.1.24
         with:
           command: "pnpm async-pipeline github check && pnpm async-pipeline run-task pack"
           check-generated: false
@@ -221,47 +221,47 @@ jobs:
           CI: true
 
       - name: Plan release package
-        uses: async/actions/doctor@ae78d0fe7cc4bb00907c275bc7bab4317a02fe17 # v0.1.23
+        uses: async/actions/doctor@ff415041176eaffaa2ba19363fe371188f52ee1f # v0.1.24
         with:
           mode: plan
           package-path: "packages/web"
           evidence-dir: .async/release
-          release-command: "pnpm dlx github:async/release#v0.1.5"
+          release-command: "pnpm dlx github:async/release#v0.1.6"
         env:
           CI: true
 
       - name: Inspect release package
-        uses: async/actions/doctor@ae78d0fe7cc4bb00907c275bc7bab4317a02fe17 # v0.1.23
+        uses: async/actions/doctor@ff415041176eaffaa2ba19363fe371188f52ee1f # v0.1.24
         with:
           mode: inspect
           package-path: "packages/web"
           evidence-dir: .async/release
-          release-command: "pnpm dlx github:async/release#v0.1.5"
+          release-command: "pnpm dlx github:async/release#v0.1.6"
         env:
           CI: true
 
       - name: Check release changelog
-        uses: async/actions/doctor@ae78d0fe7cc4bb00907c275bc7bab4317a02fe17 # v0.1.23
+        uses: async/actions/doctor@ff415041176eaffaa2ba19363fe371188f52ee1f # v0.1.24
         with:
           mode: changelog
           package-path: "packages/web"
           evidence-dir: .async/release
-          release-command: "pnpm dlx github:async/release#v0.1.5"
+          release-command: "pnpm dlx github:async/release#v0.1.6"
         env:
           CI: true
 
       - name: Render release notes
-        uses: async/actions/doctor@ae78d0fe7cc4bb00907c275bc7bab4317a02fe17 # v0.1.23
+        uses: async/actions/doctor@ff415041176eaffaa2ba19363fe371188f52ee1f # v0.1.24
         with:
           mode: notes
           package-path: "packages/web"
           evidence-dir: .async/release
-          release-command: "pnpm dlx github:async/release#v0.1.5"
+          release-command: "pnpm dlx github:async/release#v0.1.6"
         env:
           CI: true
 
       - name: Create or update GitHub Release
-        uses: async/actions/publish@ae78d0fe7cc4bb00907c275bc7bab4317a02fe17 # v0.1.23
+        uses: async/actions/publish@ff415041176eaffaa2ba19363fe371188f52ee1f # v0.1.24
         with:
           package-path: "packages/web"
           mode: github-release
@@ -273,7 +273,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Publish GitHub Packages mirror
-        uses: async/actions/publish@ae78d0fe7cc4bb00907c275bc7bab4317a02fe17 # v0.1.23
+        uses: async/actions/publish@ff415041176eaffaa2ba19363fe371188f52ee1f # v0.1.24
         with:
           package-path: "packages/web"
           mode: github-packages
@@ -285,7 +285,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Publish npm package
-        uses: async/actions/publish@ae78d0fe7cc4bb00907c275bc7bab4317a02fe17 # v0.1.23
+        uses: async/actions/publish@ff415041176eaffaa2ba19363fe371188f52ee1f # v0.1.24
         with:
           package-path: "packages/web"
           mode: npm
@@ -298,12 +298,12 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Run release doctor
-        uses: async/actions/doctor@ae78d0fe7cc4bb00907c275bc7bab4317a02fe17 # v0.1.23
+        uses: async/actions/doctor@ff415041176eaffaa2ba19363fe371188f52ee1f # v0.1.24
         with:
           mode: doctor
           package-path: "packages/web"
           evidence-dir: .async/release
-          release-command: "pnpm dlx github:async/release#v0.1.5"
+          release-command: "pnpm dlx github:async/release#v0.1.6"
           network: live
         env:
           CI: true
@@ -311,7 +311,7 @@ jobs:
 
       - name: Save Async task cache
         if: ${{ success() && github.event_name != 'pull_request' && steps.async-cache-restore.outputs.cache-hit != 'true' }}
-        uses: async/actions/cache@ae78d0fe7cc4bb00907c275bc7bab4317a02fe17 # v0.1.23
+        uses: async/actions/cache@ff415041176eaffaa2ba19363fe371188f52ee1f # v0.1.24
         with:
           mode: save
           manifest: .async/actions/cache/stable-release-cache-manifest.json
@@ -345,14 +345,14 @@ jobs:
 
       - name: Restore Async task cache
         id: async-cache-restore
-        uses: async/actions/cache@ae78d0fe7cc4bb00907c275bc7bab4317a02fe17 # v0.1.23
+        uses: async/actions/cache@ff415041176eaffaa2ba19363fe371188f52ee1f # v0.1.24
         with:
           mode: restore
           manifest: .async/actions/cache/verify-cache-manifest.json
           trust: read-only
 
       - name: Run pipeline job
-        uses: async/actions/run@ae78d0fe7cc4bb00907c275bc7bab4317a02fe17 # v0.1.23
+        uses: async/actions/run@ff415041176eaffaa2ba19363fe371188f52ee1f # v0.1.24
         with:
           command: "pnpm async-pipeline github check && pnpm async-pipeline run verify"
           check-generated: false
@@ -362,7 +362,7 @@ jobs:
 
       - name: Save Async task cache
         if: ${{ success() && github.event_name != 'pull_request' && steps.async-cache-restore.outputs.cache-hit != 'true' }}
-        uses: async/actions/cache@ae78d0fe7cc4bb00907c275bc7bab4317a02fe17 # v0.1.23
+        uses: async/actions/cache@ff415041176eaffaa2ba19363fe371188f52ee1f # v0.1.24
         with:
           mode: save
           manifest: .async/actions/cache/verify-cache-manifest.json
@@ -396,14 +396,14 @@ jobs:
 
       - name: Restore Async task cache
         id: async-cache-restore
-        uses: async/actions/cache@ae78d0fe7cc4bb00907c275bc7bab4317a02fe17 # v0.1.23
+        uses: async/actions/cache@ff415041176eaffaa2ba19363fe371188f52ee1f # v0.1.24
         with:
           mode: restore
           manifest: .async/actions/cache/docs.site-cache-manifest.json
           trust: read-only
 
       - name: Run Pages target
-        uses: async/actions/run@ae78d0fe7cc4bb00907c275bc7bab4317a02fe17 # v0.1.23
+        uses: async/actions/run@ff415041176eaffaa2ba19363fe371188f52ee1f # v0.1.24
         with:
           command: "pnpm async-pipeline github check && pnpm async-pipeline run-task docs.site"
           check-generated: false
@@ -413,14 +413,14 @@ jobs:
 
       - name: Save Async task cache
         if: ${{ success() && github.event_name != 'pull_request' && steps.async-cache-restore.outputs.cache-hit != 'true' }}
-        uses: async/actions/cache@ae78d0fe7cc4bb00907c275bc7bab4317a02fe17 # v0.1.23
+        uses: async/actions/cache@ff415041176eaffaa2ba19363fe371188f52ee1f # v0.1.24
         with:
           mode: save
           manifest: .async/actions/cache/docs.site-cache-manifest.json
           trust: read-write
 
       - name: Upload Pages artifact
-        uses: async/actions/pages@ae78d0fe7cc4bb00907c275bc7bab4317a02fe17 # v0.1.23
+        uses: async/actions/pages@ff415041176eaffaa2ba19363fe371188f52ee1f # v0.1.24
         with:
           mode: static
           path: ".async/pages"
@@ -439,7 +439,7 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: async/actions/pages@ae78d0fe7cc4bb00907c275bc7bab4317a02fe17 # v0.1.23
+        uses: async/actions/pages@ff415041176eaffaa2ba19363fe371188f52ee1f # v0.1.24
         with:
           upload: false
           deploy: true
@@ -479,14 +479,14 @@ jobs:
 
       - name: Restore Async task cache
         id: async-cache-restore
-        uses: async/actions/cache@ae78d0fe7cc4bb00907c275bc7bab4317a02fe17 # v0.1.23
+        uses: async/actions/cache@ff415041176eaffaa2ba19363fe371188f52ee1f # v0.1.24
         with:
           mode: restore
           manifest: .async/actions/cache/package-preview-cache-manifest.json
           trust: read-only
 
       - name: Run package preview target
-        uses: async/actions/run@ae78d0fe7cc4bb00907c275bc7bab4317a02fe17 # v0.1.23
+        uses: async/actions/run@ff415041176eaffaa2ba19363fe371188f52ee1f # v0.1.24
         with:
           command: "pnpm async-pipeline github check && pnpm async-pipeline run-task pack"
           check-generated: false
@@ -496,44 +496,44 @@ jobs:
 
       - name: Save Async task cache
         if: ${{ success() && github.event_name != 'pull_request' && steps.async-cache-restore.outputs.cache-hit != 'true' }}
-        uses: async/actions/cache@ae78d0fe7cc4bb00907c275bc7bab4317a02fe17 # v0.1.23
+        uses: async/actions/cache@ff415041176eaffaa2ba19363fe371188f52ee1f # v0.1.24
         with:
           mode: save
           manifest: .async/actions/cache/package-preview-cache-manifest.json
           trust: read-write
 
       - name: Plan PR package preview
-        run: pnpm dlx github:async/release#v0.1.5 preview plan --package packages/web --mode pr --namespace "${{ github.repository_owner }}" --source-repository "${{ github.repository }}" --source-sha "${{ github.sha }}" --evidence-dir .async/release --json --pr-number "${{ github.event.pull_request.number }}" --head-sha "${{ github.event.pull_request.head.sha }}"
+        run: pnpm dlx github:async/release#v0.1.6 preview plan --package packages/web --mode pr --namespace "${{ github.repository_owner }}" --source-repository "${{ github.repository }}" --source-sha "${{ github.sha }}" --evidence-dir .async/release --json --pr-number "${{ github.event.pull_request.number }}" --head-sha "${{ github.event.pull_request.head.sha }}"
 
       - name: Stage PR package preview
-        run: pnpm dlx github:async/release#v0.1.5 preview stage --package packages/web --mode pr --namespace "${{ github.repository_owner }}" --source-repository "${{ github.repository }}" --source-sha "${{ github.sha }}" --evidence-dir .async/release --json --registry https://npm.pkg.github.com --pr-number "${{ github.event.pull_request.number }}" --head-sha "${{ github.event.pull_request.head.sha }}"
+        run: pnpm dlx github:async/release#v0.1.6 preview stage --package packages/web --mode pr --namespace "${{ github.repository_owner }}" --source-repository "${{ github.repository }}" --source-sha "${{ github.sha }}" --evidence-dir .async/release --json --registry https://npm.pkg.github.com --pr-number "${{ github.event.pull_request.number }}" --head-sha "${{ github.event.pull_request.head.sha }}"
 
       - name: Inspect PR package preview
-        run: pnpm dlx github:async/release#v0.1.5 preview inspect --package packages/web --mode pr --namespace "${{ github.repository_owner }}" --source-repository "${{ github.repository }}" --source-sha "${{ github.sha }}" --evidence-dir .async/release --json --pr-number "${{ github.event.pull_request.number }}" --head-sha "${{ github.event.pull_request.head.sha }}"
+        run: pnpm dlx github:async/release#v0.1.6 preview inspect --package packages/web --mode pr --namespace "${{ github.repository_owner }}" --source-repository "${{ github.repository }}" --source-sha "${{ github.sha }}" --evidence-dir .async/release --json --pr-number "${{ github.event.pull_request.number }}" --head-sha "${{ github.event.pull_request.head.sha }}"
 
       - name: Publish package preview
         id: async-package-preview
-        uses: async/actions/preview@ae78d0fe7cc4bb00907c275bc7bab4317a02fe17 # v0.1.23
+        uses: async/actions/preview@ff415041176eaffaa2ba19363fe371188f52ee1f # v0.1.24
         with:
           package-path: "packages/web"
           target-registry: "https://npm.pkg.github.com"
           mode: pr
           comment: true
           token-env-name: "GITHUB_TOKEN"
-          release-package: "github:async/release#v0.1.5"
+          release-package: "github:async/release#v0.1.6"
         env:
           CI: true
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Verify PR package preview
         if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository && steps.async-package-preview.outputs.package-spec != ''
-        run: pnpm dlx github:async/release#v0.1.5 preview doctor --package packages/web --mode pr --namespace "${{ github.repository_owner }}" --source-repository "${{ github.repository }}" --source-sha "${{ github.sha }}" --evidence-dir .async/release --json --registry https://npm.pkg.github.com --network live --pr-number "${{ github.event.pull_request.number }}" --head-sha "${{ github.event.pull_request.head.sha }}"
+        run: pnpm dlx github:async/release#v0.1.6 preview doctor --package packages/web --mode pr --namespace "${{ github.repository_owner }}" --source-repository "${{ github.repository }}" --source-sha "${{ github.sha }}" --evidence-dir .async/release --json --registry https://npm.pkg.github.com --network live --pr-number "${{ github.event.pull_request.number }}" --head-sha "${{ github.event.pull_request.head.sha }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Comment package preview
         if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository && steps.async-package-preview.outputs.comment-body != ''
-        uses: async/actions/comment@ae78d0fe7cc4bb00907c275bc7bab4317a02fe17 # v0.1.23
+        uses: async/actions/comment@ff415041176eaffaa2ba19363fe371188f52ee1f # v0.1.24
         with:
           mode: pr-comment
           repository: ${{ github.repository }}
